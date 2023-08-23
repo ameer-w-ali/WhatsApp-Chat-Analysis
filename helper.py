@@ -1,6 +1,8 @@
 import re
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import pandas as pd
+from collections import Counter
 
 def link_extractor(message):
   url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
@@ -33,9 +35,20 @@ def active_users(df):
   return fig
 
 def Cloud(df):
-  text = ' '.join(df['Message']).replace("Media omitted", "")
+  text = ' '.join(df['Message']).replace("<Media omitted>", "")
   wc = WordCloud(background_color='white', width=800, height=800).generate(text)
   fig, ax = plt.subplots(figsize=(10, 10))
   ax.imshow(wc, interpolation='bilinear')
   ax.axis('off')
   return fig
+
+def Common(df):
+    # Combine messages into a single string and clean the text
+    cleaned_text = ' '.join(df['Message']).replace("<Media omitted>", "").lower()
+    
+    # Split the cleaned text into words and count occurrences
+    word_counts = Counter(cleaned_text.split())
+    
+    sorted_word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
+    df_word_counts = pd.DataFrame(sorted_word_counts, columns=["words", "count"])
+    return df_word_counts[:20]

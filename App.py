@@ -8,7 +8,7 @@ if uploaded_file is not None:
 	bytes_data = uploaded_file.getvalue()
 	data = bytes_data.decode('utf-8')
 	df = preprocessor.preprocess(data)
-	# st.table(df)
+	st.dataframe(df)
 	users = df['Sender'].unique().tolist()
 	users.remove('System')
 	users.sort()
@@ -39,4 +39,7 @@ if uploaded_file is not None:
 			st.title('Most Active Users')
 			st.pyplot(helper.active_users(df))
 			st.pyplot(helper.Cloud(df))
-		
+			col1,col2= st.columns(2)
+			with col1:
+				st.table(helper.Common(df))
+
