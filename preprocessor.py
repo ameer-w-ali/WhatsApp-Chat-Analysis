@@ -26,20 +26,17 @@ def preprocess(data):
 					senders.append(sender)
 					messages.append(message)
 				except ValueError:
-					# Handle lines that don't have a colon separator
 					sender = 'System'
 					message = rest
 					dates.append(date_time)
 					senders.append(sender)
 					messages.append(message)
 			else:
-				# This means it's a continuation of the previous message
 				if current_message:
 					current_message += '\n' + line.strip()
 				else:
 					current_message = line.strip()
 
-	# If there's still a pending message at the end of the loop
 	if current_message:
 		if messages:
 			messages[-1] = messages[-1] + '\n' + current_message
@@ -53,6 +50,10 @@ def preprocess(data):
 	}
 
 	df = pd.DataFrame(chat_data)
+	# if any("am" in time or "pm" in time for time in df['Date']):
+	# 	time_format = '%d/%m/%y, %I:%M %p'
+	# else:
+	# 	time_format = '%d/%m/%y, %H:%M'
 
 	df['Date'] = pd.to_datetime(df['Date'], format='%d/%m/%y, %H:%M')
 	df['Year'] = df['Date'].dt.year
