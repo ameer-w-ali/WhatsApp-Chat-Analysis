@@ -1,5 +1,5 @@
 import re
-
+import matplotlib.pyplot as plt
 
 def link_extractor(message):
   url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
@@ -20,3 +20,14 @@ def fetch_stats(selected_user,df):
     links =  user['Message'].apply(link_extractor).apply(len).sum()
   return msg,words,media,links
 
+def active_users(df):
+  count = df['Sender'].value_counts()
+
+  if 'System' in count.index:
+    count = count.drop('System')
+
+  fig, ax = plt.subplots(figsize=(10, 7))
+  ax.pie(count.values, labels=count.index, autopct='%1.1f%%', startangle=90)
+  ax.set_title('Activity of All Users (excluding System)')
+
+  return fig

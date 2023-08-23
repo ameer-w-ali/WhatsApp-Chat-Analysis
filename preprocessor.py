@@ -10,9 +10,7 @@ def preprocess(data):
 	for line in content:
 			parts = line.split(' - ')
 			
-			# Check if the line follows the expected format
 			if len(parts) == 2:
-				# If there's a current message, it means the previous line was a multi-line message
 				if current_message:
 					if messages:
 						messages[-1] = messages[-1] + '\n' + current_message
