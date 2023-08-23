@@ -1,5 +1,6 @@
 import re
 import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 def link_extractor(message):
   url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
@@ -28,6 +29,13 @@ def active_users(df):
 
   fig, ax = plt.subplots(figsize=(10, 7))
   ax.pie(count.values, labels=count.index, autopct='%1.1f%%', startangle=90)
-  ax.set_title('Activity of All Users (excluding System)')
 
+  return fig
+
+def Cloud(df):
+  text = ' '.join(df['Message'])
+  wc = WordCloud(background_color='white', width=800, height=800).generate(text)
+  fig, ax = plt.subplots(figsize=(10, 10))
+  ax.imshow(wc, interpolation='bilinear')
+  ax.axis('off')
   return fig

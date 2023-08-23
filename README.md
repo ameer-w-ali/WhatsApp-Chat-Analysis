@@ -6,7 +6,7 @@ To run this Project
 ```
 Dependencies
 ```shell
-  pip install pandas streamlit
+  pip install pandas streamlit matplotlib
 ```
 
 List of contributors and their GitHub profiles:
