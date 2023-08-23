@@ -33,7 +33,7 @@ def active_users(df):
   return fig
 
 def Cloud(df):
-  text = ' '.join(df['Message'])
+  text = ' '.join(df['Message']).replace("Media omitted", "")
   wc = WordCloud(background_color='white', width=800, height=800).generate(text)
   fig, ax = plt.subplots(figsize=(10, 10))
   ax.imshow(wc, interpolation='bilinear')

@@ -37,6 +37,6 @@ if uploaded_file is not None:
 			st.title(links)
 
 		if selected_user == 'Overall':
-				st.title('Most Active Users')
-				st.pyplot(helper.active_users(df))
-				st.pyplot(helper.Cloud(df))
+			st.title('Most Active Users')
+			st.pyplot(helper.active_users(df))
+			st.pyplot(helper.Cloud(df))
