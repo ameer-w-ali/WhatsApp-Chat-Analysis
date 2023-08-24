@@ -6,7 +6,7 @@ To run this Project
 ```
 Dependencies
 ```shell
-  pip install pandas streamlit matplotlib wordcloud
+  pip install pandas streamlit matplotlib wordcloud emoji seaborn
 ```
 
 List of contributors and their GitHub profiles:

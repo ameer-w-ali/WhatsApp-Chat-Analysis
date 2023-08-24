@@ -42,7 +42,24 @@ if uploaded_file is not None:
 
 		st.title("Daily Timeline")
 		st.pyplot(helper.daily_timeline(df,selected_user))
-		
+
+		st.markdown("<h1 align=center>Activity Map</h1>",
+						unsafe_allow_html=True)
+
+		col1,col2 = st.columns(2)
+  		
+		with col1:
+			st.header('Most busy day')
+			st.pyplot(helper.week_activity(df,selected_user))
+
+		with col2:
+			st.header('Most busy month')
+			st.pyplot(helper.month_activity(df,selected_user))
+   
+		st.markdown("<h1 align=center>24/7 HeatMap</h1>",
+						unsafe_allow_html=True)
+		st.pyplot(helper.activity_heatmap(selected_user,df))
+  
 		if selected_user == 'Overall':
 			st.markdown("<h1 align=center>Most Active Users</h1>",
 						unsafe_allow_html=True)
@@ -56,7 +73,7 @@ if uploaded_file is not None:
 				col1.pyplot(fig1)
 
 			with col2:
-				col2.dataframe(contribution)
+				col2.table(contribution)
 
 		st.markdown("<h1 align=center>Most Used Words</h1>",
 					unsafe_allow_html=True)
@@ -69,6 +86,6 @@ if uploaded_file is not None:
 		col1, col2 = st.columns(2)
 
 		with col1:
-			st.dataframe(emojis)
+			st.table(emojis)
 		with col2:
 			st.pyplot(fig2)

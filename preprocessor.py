@@ -61,6 +61,16 @@ def preprocess(data):
 	df['Hour'] = df['Dates'].dt.hour
 	df['Minutes'] = df['Dates'].dt.minute
 	df['Month_Num'] = df['Dates'].dt.month
+	df['Day_name'] = df['Dates'].dt.day_name()
 	df.drop(['Dates'], axis=1, inplace=True)
-
+	
+	period = []
+	for hour in df[['Day_name','Hour']]['Hour']:
+		if hour==23:
+			period.append(str(hour)+'-'+str('00'))
+		elif hour==0:
+			period.append(str('00')+'-'+str(hour+1))
+		else:
+			period.append(str(hour)+'-'+str(hour+1))
+	df['period']=period
 	return df

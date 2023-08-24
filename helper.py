@@ -4,6 +4,8 @@ from wordcloud import WordCloud, STOPWORDS
 import pandas as pd
 from collections import Counter
 import emoji
+import seaborn as sb
+import numpy as np
 
 
 def link_extractor(message):
@@ -148,3 +150,44 @@ def daily_timeline(df,selected_user):
 	ax.plot(timeline['Date'],timeline['Message'])
 	ax.set_xticklabels(timeline['Date'], rotation=45, ha='right')
 	return fig
+
+
+def week_activity(df,selected_user):
+	if selected_user == "Overall":
+		user = df[df['Sender'] != 'System']
+	else:
+		user = df[df['Sender'] == selected_user]
+	
+	bzday= user['Day_name'].value_counts()
+	fig,ax =plt.subplots()
+	ax.bar(bzday.index,bzday.values)
+	ax.set_xticklabels(bzday.index, rotation=45, ha='right')
+	return fig
+
+
+def month_activity(df,selected_user):
+	if selected_user == "Overall":
+		user = df[df['Sender'] != 'System']
+	else:
+		user = df[df['Sender'] == selected_user]
+	bzmonth= user['Month'].value_counts()
+	fig,ax =plt.subplots()
+	ax.bar(bzmonth.index,bzmonth.values)
+	ax.set_xticklabels(bzmonth.index, rotation=45, ha='right')
+	return fig
+
+
+def activity_heatmap(selected_user, df):
+    if selected_user == "Overall":
+        user = df[df['Sender'] != 'System']
+    else:
+        user = df[df['Sender'] == selected_user]
+  
+    user_heatmap = user.pivot_table(index='Day_name', columns='period', values='Message', aggfunc='count').fillna(0)
+    
+    cmap = plt.cm.Blues
+    fig, ax = plt.subplots(figsize=(10,5))
+    ax = sb.heatmap(user_heatmap, cmap=cmap, linewidths=.5, annot=True, fmt="g", square=True,cbar=False)
+    ax.invert_yaxis()
+    
+    return fig
