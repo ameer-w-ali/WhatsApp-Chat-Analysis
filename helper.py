@@ -64,7 +64,7 @@ def Cloud(df, selected_user):
 		user = df[df['Sender'] == selected_user]
 
 	text = ' '.join(user['Message']).replace(
-		"<Media omitted>", "").replace("This message was deleted", "")
+		"<Media omitted>", "").replace("This message was deleted", "").replace("You deleted this message", "").replace("Missed voice call","")
 
 	wc = WordCloud(background_color='white', width=1600, height=800, stopwords=stopwords).generate(text)
 
@@ -85,7 +85,7 @@ def Common(df, selected_user):
 		user = df[df['Sender'] == selected_user]
 
 	text = ' '.join(user['Message']).replace("<Media omitted>", "").replace(
-		"This message was deleted", "").lower()
+		"This message was deleted", "").replace("You deleted this message", "").replace("Missed voice call","").lower()
 	words = text.split()
 	words = [word for word in words if word not in stop_hinglish]
 	counts = Counter(words).most_common(20)
