@@ -2,7 +2,7 @@
 
 To run this Project
 ```shell
-  streamlit run app.py
+  setup.bat
 ```
 Dependencies
 ```shell

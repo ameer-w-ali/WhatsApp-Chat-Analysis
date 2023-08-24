@@ -5,7 +5,6 @@ import pandas as pd
 from collections import Counter
 import emoji
 import seaborn as sb
-import numpy as np
 
 
 def link_extractor(message):
@@ -38,11 +37,11 @@ def active_users(df):
 		count = count.drop('System')
 
 	prcnt = round((count / count.sum()) * 100, 2)
-	contribution = pd.DataFrame({
-		'User': count.index,
-		'Messages': count.values,
-		'Contribution(%)': prcnt.values
-	})
+	# contribution = pd.DataFrame({
+	# 	'User': count.index,
+	# 	'Messages': count.values,
+	# 	'Contribution(%)': prcnt.values
+	# })
 
 	if len(count) > 10:
 		count = count.head(10)
@@ -50,7 +49,7 @@ def active_users(df):
 	fig, ax = plt.subplots()
 	ax.pie(count.values, labels=count.index, autopct='%1.1f%%', startangle=90)
 
-	return fig, contribution
+	return fig
 
 
 def Cloud(df, selected_user):
@@ -95,7 +94,6 @@ def Common(df, selected_user):
 	fig, ax = plt.subplots(figsize=(10, 8))
 	ax.barh(words, word_counts, color='skyblue')
 	ax.set_xlabel('Count')
-	ax.set_title('Top 20 Common Words')
 	ax.invert_yaxis()
 
 	return fig
