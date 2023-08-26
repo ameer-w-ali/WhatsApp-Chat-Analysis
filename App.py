@@ -9,15 +9,15 @@ if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data = bytes_data.decode('utf-8')
     df = preprocessor.preprocess(data)
-    # st.write(len(test['Sender']),len(test['Message']),len(test['Dates']))
     # st.dataframe(df)
+    # test = preprocessor.preprocess(data)
+    # st.table(test)
     users = df['Sender'].unique().tolist()
     users.remove('System')
     users.sort()
     users.insert(0, "Overall")
     selected_user = st.sidebar.selectbox("Show Analysis wrt", users)
-    if st.sidebar.button("Run Analysis") or selected_user:
-
+    if selected_user:
         messages, words, media, links = helper.fetch_stats(selected_user, df)
         col1, col2, col3, col4 = st.columns(4)
 
@@ -36,6 +36,11 @@ if uploaded_file is not None:
         with col4:
             st.header("Links Count")
             st.title(links)
+
+        st.divider()
+        word = st.text_input("Enter word to search:")
+        if word:
+            st.dataframe(helper.search_messages(df, selected_user, word), width=1000, hide_index=True)
 
         st.title("Monthly Timeline")
         st.pyplot(helper.monthly_timeline(df, selected_user))
@@ -90,6 +95,6 @@ if uploaded_file is not None:
         col1, col2 = st.columns(2)
 
         with col1:
-            st.table(emojis)
+            st.dataframe(emojis,hide_index=True)
         with col2:
             st.pyplot(fig2)

@@ -176,16 +176,32 @@ def month_activity(df,selected_user):
 
 
 def activity_heatmap(selected_user, df):
-    if selected_user == "Overall":
-        user = df[df['Sender'] != 'System']
-    else:
-        user = df[df['Sender'] == selected_user]
-  
-    user_heatmap = user.pivot_table(index='Day_name', columns='period', values='Message', aggfunc='count').fillna(0)
-    
-    cmap = plt.cm.Blues
-    fig, ax = plt.subplots(figsize=(10,5))
-    ax = sb.heatmap(user_heatmap, cmap=cmap, linewidths=.5, annot=True, fmt="g", square=True,cbar=False)
-    ax.invert_yaxis()
-    
-    return fig
+		if selected_user == "Overall":
+				user = df[df['Sender'] != 'System']
+		else:
+				user = df[df['Sender'] == selected_user]
+	
+		user_heatmap = user.pivot_table(index='Day_name', columns='period', values='Message', aggfunc='count').fillna(0)
+		
+		cmap = plt.cm.Blues
+		fig, ax = plt.subplots(figsize=(10,5))
+		ax = sb.heatmap(user_heatmap, cmap=cmap, linewidths=.5, annot=True, fmt="g", square=True,cbar=False)
+		ax.invert_yaxis()
+		
+		return fig
+
+def search_messages(df, selected_user, word):
+	if selected_user == "Overall":
+			user = df[df['Sender'] != 'System']
+	else:
+			user = df[df['Sender'] == selected_user]
+		
+	temp = user[user['Message'].str.contains(word, case=False, na=False)].reset_index()
+
+	temp['Full Date'] = (temp['Date'].astype(str) + '/' + 
+                                temp['Month_Num'].astype(str) + '/' + 
+                                temp['Year'].astype(str) + ', ' +
+                                temp['Hour'].astype(str) + ':' +
+                                temp['Minutes'].astype(str))
+
+	return temp[['Sender', 'Message', 'Full Date']]
